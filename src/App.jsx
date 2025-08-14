@@ -1,13 +1,10 @@
-import './App.css'
+import './App.css';
+import MovieForm from './components/MovieForm';
 
 function App() {
 
   return (
-    <>
-      <h1 class="text-3xl bg-amber-400 font-bold underline">
-        Hello world!
-      </h1>
-    </>
+    <MovieForm />
   )
 }
 

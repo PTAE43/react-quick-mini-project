@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-//เอาชุดของมูลมาจากโจทย์
+//1.เอาชุดของมูลมาจากโจทย์
 const movies = [
   { title: "Avatar", year: "2009", director: "James Cameron" },
   { title: "Inception", year: "2010", director: "Christopher Nolan" },
@@ -12,7 +12,7 @@ const movies = [
 
 
 
-//กำหนดสิ่งที่จะรับข้อมูลจากการกรอก
+//2.กำหนดสิ่งที่จะรับข้อมูลจากการกรอก
 const MovieForm = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -20,7 +20,7 @@ const MovieForm = () => {
   const [massage, setMassage] = useState("");
   const [isError, setIsError] = useState("");
 
-  //สร้าง validate ตรวจสอบข้อมูล user,pass,email
+  //3.สร้าง validate ตรวจสอบข้อมูล user,pass,email
   const validate = () => {
     const newIsError = {};
     if (!username.trim()) { newIsError.username = "โปรดระบุชื่อของคุณ." }
@@ -30,12 +30,12 @@ const MovieForm = () => {
     return newIsError;
   }
 
-  //ต่อไปหลักจากผู้ใช้งานระบุข้อมูลและกดส่ง หรือกดปุ่ม submit ที่ตรวจสอบข้อมูลแล้ว นำมาทำการแสดงผลต่อ
+  //4.ต่อไปหลักจากผู้ใช้งานระบุข้อมูลและกดส่ง หรือกดปุ่ม submit ที่ตรวจสอบข้อมูลแล้ว นำมาทำการแสดงผลต่อ
   const handleSubmit = (event) => {
     event.preventDefault();
 
     const validateIsError = validate();
-    //นำมาเช็คว่ามี error มาไหมก่อนครับ
+    //5.นำมาเช็คว่ามี error มาไหมก่อนครับ
     if (Object.keys(validateIsError).length > 0) {
       setIsError(validateIsError);
     } else {
@@ -44,50 +44,60 @@ const MovieForm = () => {
     }
   }
 
-  const AlertForm = () => {
-    return (
-      <div>
-        <div>สรุปผลแบบสำรวจ</div>
-        <div>
-          <div>
-            <div>ชื่อ:</div>
-            <div>{username}</div>
-          </div>
-          <div>
-            <div>อีเมล์:</div>
-            <div>{email}</div>
-          </div>
-          <div>
-            <div>หนังที่เลือก:</div>
-            <div>{selectMovie}</div>
-          </div>
-          <div>
-            <div>ความคิดเห็น:</div>
-            <div></div>
-          </div>
-        </div>
-        <div></div>
-      </div>
-    )
-  }
-
   return (
+    //6.สร้าง form รับข้อความผู้ใช้
     <form>
       <div>แบบสำรวจความชอบภาพยนตร์</div>
       <div>
-        <div>ชื่อ*:</div>
+        <div>
+          <label className="">ชื่อ*:</label>
+          <input
+            type="text"
+            name="username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+          {!isError.username && <p>{isError.username}</p>}
+        </div>
+      </div>
+      <div>
+        <div>
+          <label className="">อีเมล์*:</label>
+          <input
+            type="text"
+            name="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          {!isError.email && <p>{isError.email}</p>}
+        </div>
         <div></div>
       </div>
       <div>
-        <div>อีเมล์*:</div>
-        <div></div>
+        <label className="">เลือกหนังที่คุณชอบ*:</label>
+        <div>
+          {movies.map((item, id) => (
+            <label key={id}>
+              <input
+                type="radio"
+                name="movie"
+                value={item.title}
+                onChange={(e) => setSelectMovie(e.target.value)}
+              />
+              {item.title} ({item.year}) - {item.director}
+            </label>
+          )
+          )}</div>
       </div>
       <div>
-        <div>เลือกหนังที่คุณชอบ*:</div>
-        <div>{map}</div>
+        <label className="">ความคิดเห็น (ถ้ามี):</label>
+        <input
+          type="text"
+          name="massage"
+          value={massage}
+          onChange={(e) => setMassage(e.target.value)}
+        />
       </div>
-      <div>ความคิดเห็น (ถ้ามี):</div>
-      <div></div>
       <div>
         <button>ส่งแบบสำรวจ</button>
         <button>รีเซ็ต</button>
