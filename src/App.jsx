@@ -46,10 +46,13 @@
 //   );
 // }
 
-
+import "./App.css";
 import MovieForm from "./components/SurveyForm/SurveyForm";
 
-function App() {
-  return <MovieForm />;
+export default function App() {
+  return (
+
+          <MovieForm />
+
+  );
 }
-export default App;

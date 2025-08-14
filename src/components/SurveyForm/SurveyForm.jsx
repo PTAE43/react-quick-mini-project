@@ -1,6 +1,6 @@
 // โครงฟอร์มรวม (stateless, รับ/ส่งผ่าน props)
 import AlertForm from "../SummaryView/SummaryView"; // ปรับ path: เรียกสรุปผล
-import { movies } from "../../constants/movies"; 
+import { movies } from "../../constants/movies";
 
 // field & ui components
 import TextField from "../fields/TextField";
@@ -28,14 +28,17 @@ const MovieForm = () => {
         selectMovie={selectMovie}
         massage={massage}
         onRestart={handleReset} //สร้างปุ่มกดกลับ
+        
       />
     );
   }
 
   return (
     //6.สร้าง form รับข้อความผู้ใช้
-    <form onSubmit={handleSubmit}>
-      <div>แบบสำรวจความชอบภาพยนตร์</div>
+    <form onSubmit={handleSubmit} className="card p-6 md:p-8 space-y-6">
+      <div className="flex items-center justify-between">
+        <h1 className="section-title">แบบสำรวจความชอบภาพยนตร์</h1>
+      </div>
 
       <TextField
         label="ชื่อ*:"
@@ -70,13 +73,13 @@ const MovieForm = () => {
         placeholder="สามารถแสดงความคิดเห็นเพิ่มเติมที่นี่!.."
       />
 
-      <div>
-        <Button type="submit">ส่งแบบสำรวจ</Button>
-        <Button type="button" onClick={handleReset}>รีเซ็ต</Button> 
+      <div className="flex items-center gap-3 pt-2">
+        <Button type="submit" variant="primary">ส่งแบบสำรวจ</Button>
+        <Button type="button" variant="ghost" onClick={handleReset}>รีเซ็ต</Button>
         {/*เพิ่ม type="button" และผูกกับ handleReset */}
       </div>
 
-      <div>*ข้อมูลไม่ถูกต้อง</div>
+      <div className="text-xs text-gray-500">*ห้ามเว้นว่างนะครับ</div>
     </form>
   );
 };

@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { validate } from "../../utils/validation";
 
+//หน้านี้ไม่ได้แต่ง CSS_tailwind
+
 //2.กำหนดสิ่งที่จะรับข้อมูลจากการกรอก
 export function useSurveyForm() {
   const [username, setUsername] = useState("");
