@@ -1,74 +1,84 @@
 // โครงฟอร์มรวม (stateless, รับ/ส่งผ่าน props)
+import AlertForm from "../SummaryView/SummaryView"; // ปรับ path: เรียกสรุปผล
+import { movies } from "../../constants/movies"; 
 
+// field & ui components
 import TextField from "../fields/TextField";
 import RadioGroup from "../fields/RadioGroup";
 import TextArea from "../fields/TextArea";
 import Button from "../common/Button";
 
-export default function SurveyForm({
-  formData,
-  errors,
-  onChange,
-  onSubmit,
-  onReset,
-  movieOptions,
-}) {
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onSubmit();
-  };
+// ใช้ hook แยก state+logic ตาม SRP
+import { useSurveyForm } from "./useSurveyForm";
+
+//2.กำหนดสิ่งที่จะรับข้อมูลจากการกรอก
+const MovieForm = () => {
+  const {
+    username, email, selectMovie, massage, isError, isSubmitted,
+    setUsername, setEmail, setSelectMovie, setMassage,
+    handleSubmit, handleReset,
+  } = useSurveyForm();
+
+  // ถ้ากดส่งฟอร์มแล้ว ไม่มี error -> แสดงหน้าสรุป AlertForm
+  if (isSubmitted) {
+    return (
+      <AlertForm
+        username={username}
+        email={email}
+        selectMovie={selectMovie}
+        massage={massage}
+        onRestart={handleReset} //สร้างปุ่มกดกลับ
+      />
+    );
+  }
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="bg-white border border-neutral-200 rounded-2xl p-4 md:p-6 shadow-sm space-y-4"
-    >
-      <h2 className="text-center text-lg md:text-xl font-semibold text-neutral-900">
-        แบบสำรวจความชอบภาพยนตร์
-      </h2>
+    //6.สร้าง form รับข้อความผู้ใช้
+    <form onSubmit={handleSubmit}>
+      <div>แบบสำรวจความชอบภาพยนตร์</div>
 
       <TextField
-        label="ชื่อ*"
-        name="name"
-        value={formData.name}
-        placeholder="พิมพ์ชื่อ..."
-        onChange={onChange}
-        error={errors.name}
+        label="ชื่อ*:"
+        name="username"
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
+        error={isError.username} // {/*เช็ค error ของ ชื่อ*/}
       />
 
       <TextField
-        label="อีเมล*"
+        label="อีเมล์*:"
         name="email"
-        type="email"
-        value={formData.email}
-        placeholder="name@example.com"
-        onChange={onChange}
-        error={errors.email}
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        error={isError.email} // {/*เช็ค error ของ Email*/}
       />
 
       <RadioGroup
-        label="เลือกหนังที่คุณชอบ*"
-        name="movieId"
-        options={movieOptions}
-        value={formData.movieId}
-        onChange={onChange}
-        error={errors.movieId}
+        label="เลือกหนังที่คุณชอบ*:"
+        name="option"
+        options={movies}
+        value={selectMovie}
+        onChange={setSelectMovie}
+        error={isError.selectMovie}
       />
 
       <TextArea
-        label="ความคิดเห็น"
-        name="comment"
-        value={formData.comment}
-        placeholder="อยากบอกอะไรเกี่ยวกับหนังเรื่องนี้บ้าง?"
-        onChange={onChange}
+        label="ความคิดเห็น (ถ้ามี):"
+        name="massage"
+        value={massage}
+        onChange={(e) => setMassage(e.target.value)}
+        placeholder="สามารถแสดงความคิดเห็นเพิ่มเติมที่นี่!.."
       />
 
-      <div className="flex gap-3 pt-2">
+      <div>
         <Button type="submit">ส่งแบบสำรวจ</Button>
-        <Button type="button" variant="secondary" onClick={onReset}>
-          รีเซ็ต
-        </Button>
+        <Button type="button" onClick={handleReset}>รีเซ็ต</Button> 
+        {/*เพิ่ม type="button" และผูกกับ handleReset */}
       </div>
+
+      <div>*ข้อมูลไม่ถูกต้อง</div>
     </form>
   );
-}
+};
+
+export default MovieForm;

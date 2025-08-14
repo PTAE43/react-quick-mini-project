@@ -47,14 +47,9 @@
 // }
 
 
-import MovieForm from "./components/MovieForm"; // ✅ นำเข้า Component แบบฟอร์ม
+import MovieForm from "./components/SurveyForm/SurveyForm";
 
 function App() {
-  return (
-    <div style={{ padding: "20px", fontFamily: "Arial, sans-serif" }}>
-      <MovieForm />
-    </div>
-  );
+  return <MovieForm />;
 }
-
 export default App;
